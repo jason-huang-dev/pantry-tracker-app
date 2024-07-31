@@ -1,5 +1,5 @@
-import InventoryItem from "./InventoryItem";
-import InventoryList from "./InventoryList";
+import TableRowComponent from "./TableRowComponent";
+import InventoryTable from "./InventoryTable";
 import InventoryModal from "./InventoryModal";
 
-export {InventoryItem, InventoryList, InventoryModal}
+export {TableRowComponent, InventoryTable, InventoryModal}
