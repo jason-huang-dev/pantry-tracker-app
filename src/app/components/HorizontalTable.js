@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TableSortLabel, TablePagination } from '@mui/material';
 import TableRowComponent from './TableRowComponent';
 
-const InventoryTable = ({
+const HorizontalTable = ({
   data,
   columns,
   removeItem,
@@ -53,12 +53,12 @@ const InventoryTable = ({
   }, [sortedData, page, rowsPerPage]);
 
   return (
-    <Paper>
+    <Paper sx={{ width: '100%', overflowX: 'auto' }}>
       <Typography variant="h6" component="div" padding={2}>
         Inventory
       </Typography>
       <TableContainer style={{ overflowX: 'auto' }}>
-        <Table>
+        <Table id="Column-Wise-Table">
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -97,6 +97,7 @@ const InventoryTable = ({
           </TableBody>
         </Table>
       </TableContainer>
+      
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
@@ -110,7 +111,7 @@ const InventoryTable = ({
   );
 };
 
-InventoryTable.propTypes = {
+HorizontalTable.propTypes = {
   data: PropTypes.array.isRequired,
   columns: PropTypes.arrayOf(
     PropTypes.shape({
@@ -129,4 +130,4 @@ InventoryTable.propTypes = {
   setOrderBy: PropTypes.func.isRequired,
 };
 
-export default InventoryTable;
+export default HorizontalTable;
