@@ -1,4 +1,4 @@
-// src/components/TableRowComponent.js
+'use client'
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { TableCell, TableRow, Button } from '@mui/material';

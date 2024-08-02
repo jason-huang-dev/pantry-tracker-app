@@ -1,4 +1,4 @@
-// src/components/InventoryModal.js
+'use client'
 import { useState } from 'react';
 import { Box, Typography, Modal, Button, Stack } from '@mui/material';
 import AutocompleteField from './AutocompleteField';

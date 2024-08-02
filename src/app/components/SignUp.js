@@ -1,4 +1,4 @@
-// components/SignUp.js
+'use client'
 import { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import { createUserWithEmailAndPassword } from 'firebase/auth';

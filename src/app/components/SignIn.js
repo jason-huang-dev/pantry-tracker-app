@@ -1,4 +1,4 @@
-// components/SignIn.js
+'use client'
 import { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import { signInWithEmailAndPassword } from 'firebase/auth';
