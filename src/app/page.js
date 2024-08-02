@@ -11,7 +11,7 @@ const columns = [
   { id: 'id', label: 'ID' },
   { id: 'item_name', label: 'Name' },
   { id: 'price', label: 'Price', format: (value) => `$${parseFloat(value).toFixed(2)}` },
-  { id: 'quantity', label: 'Quantity' , format: (value) => `$${parseInt(value)}`},
+  { id: 'quantity', label: 'Quantity' , format: (value) => `${parseInt(value)}`},
 ];
 
 export default function Home() {
