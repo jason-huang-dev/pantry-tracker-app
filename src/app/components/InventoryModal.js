@@ -21,22 +21,14 @@ const style = {
 const InventoryModal = ({ inventory, open, handleClose, addItem }) => {
   const [itemId, setItemId] = useState('');
   const [itemName, setItemName] = useState('');
-  const [itemDescription, setItemDescription] = useState('');
   const [itemPrice, setItemPrice] = useState('');
-  const [itemSupplier, setItemSupplier] = useState('');
-  const [itemCategory, setItemCategory] = useState('');
   const [itemQuantity, setItemQuantity] = useState('');
-  const [itemThreshold, setItemThreshold] = useState('');
 
   const resetFields = () => {
     setItemId('');
     setItemName('');
-    setItemDescription('');
     setItemPrice('');
-    setItemSupplier('');
-    setItemCategory('');
     setItemQuantity('');
-    setItemThreshold('');
   };
 
   return (
@@ -70,15 +62,6 @@ const InventoryModal = ({ inventory, open, handleClose, addItem }) => {
             optionKey="item_name"
           />
           <AutocompleteField
-            id="description-filter"
-            label="Item Description"
-            value={itemDescription}
-            setValue={setItemDescription}
-            options={inventory}
-            filterKey="description"
-            optionKey="description"
-          />
-          <AutocompleteField
             id="price-filter"
             label="Item Price (5.95)"
             value={itemPrice}
@@ -86,24 +69,6 @@ const InventoryModal = ({ inventory, open, handleClose, addItem }) => {
             options={inventory}
             filterKey="price"
             optionKey="price"
-          />
-          <AutocompleteField
-            id="supplier-filter"
-            label="Item Supplier"
-            value={itemSupplier}
-            setValue={setItemSupplier}
-            options={inventory}
-            filterKey="supplier"
-            optionKey="supplier"
-          />
-          <AutocompleteField
-            id="category-filter"
-            label="Item Category"
-            value={itemCategory}
-            setValue={setItemCategory}
-            options={inventory}
-            filterKey="category"
-            optionKey="category"
           />
           <AutocompleteField
             id="quantity-filter"
@@ -114,26 +79,14 @@ const InventoryModal = ({ inventory, open, handleClose, addItem }) => {
             filterKey="quantity"
             optionKey="quantity"
           />
-          <AutocompleteField
-            id="threshold-filter"
-            label="Refill Threshold"
-            value={itemThreshold}
-            setValue={setItemThreshold}
-            options={inventory}
-            filterKey="threshold"
-            optionKey="threshold"
-          />
           <Button
             variant="outlined"
             onClick={() => {
               addItem({
                 id: itemId,
                 item_name: itemName,
-                description: itemDescription,
                 price: parseFloat(itemPrice),
-                supplier: itemSupplier,
-                category: itemCategory,
-                threshold: parseInt(itemThreshold),
+                quantity: parseInt(itemQuantity),
               });
               resetFields();
               handleClose();

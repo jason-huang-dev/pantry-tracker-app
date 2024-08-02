@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TableSortLabel, TablePagination } from '@mui/material';
 import TableRowComponent from './TableRowComponent';
 
-const HorizontalTable = ({
+
+/**
+ * 
+ * @param {*} param0 
+ * @returns a <Paper/> with a data table given the data
+ */
+const InventoryTable = ({
   data,
   columns,
   removeItem,
@@ -53,13 +59,13 @@ const HorizontalTable = ({
   }, [sortedData, page, rowsPerPage]);
 
   return (
-    <Paper sx={{ width: '100%', overflowX: 'auto' }}>
-      <Typography variant="h6" component="div" padding={2}>
+    <Paper elevation={8} sx={{ width: '90%', overflowX: 'auto' }}>
+      <Typography variant="h6" component="div" padding={2} sx={{bgcolor:'beige'}}> 
         Inventory
       </Typography>
-      <TableContainer style={{ overflowX: 'auto' }}>
-        <Table id="Column-Wise-Table">
-          <TableHead>
+      <TableContainer style={{ overflowX: 'auto' , maxHeight:'60vh'}}  >
+        <Table stickyHeader id="Column-Wise-Table">
+          <TableHead >
             <TableRow>
               {columns.map((column) => (
                 <TableCell key={column.id}>
@@ -111,7 +117,7 @@ const HorizontalTable = ({
   );
 };
 
-HorizontalTable.propTypes = {
+InventoryTable.propTypes = {
   data: PropTypes.array.isRequired,
   columns: PropTypes.arrayOf(
     PropTypes.shape({
@@ -130,4 +136,4 @@ HorizontalTable.propTypes = {
   setOrderBy: PropTypes.func.isRequired,
 };
 
-export default HorizontalTable;
+export default InventoryTable;

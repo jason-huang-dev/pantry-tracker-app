@@ -1,0 +1,36 @@
+ID,Name,Price,Quantity
+1,Widget A,19.99,10
+2,Widget B,29.99,5
+3,Widget C,9.99,20
+4,Widget D,49.99,15
+5,Carrot, 0.75, 3000
+6,Apple, 1.25, 2000
+7,Orange, 0.50, 4000
+8, Pear, 1.00, 1000
+9, Banana, 0.75, 5000
+10, Cherry, 1.50, 2000
+11, Plum, 1.25, 1500
+12, Peach, 1.00, 2500
+13, Apricot, 1.50, 1000
+14, Nectarine, 1.25, 2000
+15, Pomegranate, 2.00, 500
+16, Fig, 1.00, 1000
+17, Grape, 1.50, 2000
+18, Kiwi, 1.00, 1500
+19, Lemon, 0.50, 3000
+20, Lime, 0.75, 2500
+21, Avocado, 1.50, 1000
+22, Mango, 1.00, 2000
+23, Papaya, 1.25, 1500
+24, Pineapple, 1.50, 1000
+25, Watermelon, 2.00, 500
+26, Strawberry, 1.00, 2000
+27, Blueberry, 1.50, 1000
+28, Raspberry, 1.25, 1500
+29, Blackberry, 1.00, 2000
+30, Cranberry, 1.50, 1000
+31, Elderberry, 1.25, 1500
+32, Gooseberry, 1.00, 2000
+33, Currant, 1.50, 1000
+34, Cherry, 1.00, 2000
+35, Plum, 1.25, 1500

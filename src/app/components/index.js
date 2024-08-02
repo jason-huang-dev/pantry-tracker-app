@@ -1,6 +1,6 @@
 import TableRowComponent from "./TableRowComponent";
-import HorizontalTable from "./HorizontalTable";
-import VerticalTable from "./VerticalTable";
+import InventoryTable from "./InventoryTable";
 import InventoryModal from "./InventoryModal";
+import RemoveQuantityModal from "./RemoveQuantityModal";
 
-export {TableRowComponent, HorizontalTable, VerticalTable, InventoryModal}
+export {TableRowComponent, InventoryTable, InventoryModal, RemoveQuantityModal}

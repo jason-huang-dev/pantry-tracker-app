@@ -24,27 +24,28 @@ const useInventory = () => {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const existingData = docSnap.data();
-      await setDoc(docRef, { ...existingData, quantity: (existingData.quantity || 0) + 1 });
+      await setDoc(docRef, { ...existingData, quantity: (existingData.quantity || 0) + item.quantity });
     } else {
-      await setDoc(docRef, { ...item, quantity: 1 });
+      await setDoc(docRef, { ...item, quantity: item.quantity });
     }
     await updateInventory();
   };
 
-  const removeItem = async (id) => {
-    if (!id) {
-      console.error('Invalid item ID');
+  const removeItem = async (id, quantityToRemove) => {
+    if (!id || quantityToRemove <= 0) {
+      console.error('Invalid item ID or quantity');
       return;
     }
     try {
       const docRef = doc(collection(firestore, 'inventory'), id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        const { quantity } = docSnap.data();
-        if (quantity <= 1) {
+        const existingData = docSnap.data();
+        const newQuantity = (existingData.quantity || 0) - quantityToRemove;
+        if (newQuantity <= 0) {
           await deleteDoc(docRef);
         } else {
-          await setDoc(docRef, { ...docSnap.data(), quantity: quantity - 1 });
+          await setDoc(docRef, { ...existingData, quantity: newQuantity });
         }
         await updateInventory();
       } else {

@@ -1,20 +1,17 @@
-// src/pages/index.js
 'use client';
 
-// src/pages/index.js
-import React, { useState, useEffect } from 'react';
-import { Box, Button } from '@mui/material';
-import { HorizontalTable, VerticalTable} from './components/';
+import { useState } from 'react';
+import { Box, Button, TextField } from '@mui/material';
+import { InventoryModal, InventoryTable } from './components';
 import { useInventory } from './hooks/';
+import { matchSorter } from 'match-sorter';
+import { CSVLink } from 'react-csv';
+import Papa from 'papaparse';
 
 const columns = [
   { id: 'id', label: 'ID' },
   { id: 'item_name', label: 'Name' },
-  { id: 'description', label: 'Description' },
-  { id: 'price', label: 'Price', format: (value) => `$${value.toFixed(2)}` },
-  { id: 'supplier', label: 'Supplier' },
-  { id: 'category', label: 'Category' },
-  { id: 'threshold', label: 'Refill Threshold' },
+  { id: 'price', label: 'Price', format: (value) => `$${parseFloat(value).toFixed(2)}` },
   { id: 'quantity', label: 'Quantity' },
 ];
 
@@ -24,19 +21,55 @@ export default function Home() {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // Determine the viewport size for table orientation
-  const [viewportWidth, setViewportWidth] = useState();
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
-  useEffect(() => {
-    const handleResize = () => setViewportWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const handleCSVUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (result) => {
+          result.data.forEach(row => {
+            const item = columns.reduce((acc, column) => {
+              let value = row[column.label];
+              // Convert values to appropriate types (e.g., number for price and quantity)
+              if (column.id === 'Price') {
+                value = parseFloat(value);
+                console.log(value);
+              } else if (column.id === 'Quantity') {
+                value = parseInt(value, 10);
+              }
+              acc[column.id] = value || '';
+              return acc;
+            }, {});
+            addItem(item); // Add item to inventory
+          });
+        },
+        error: (error) => console.error(error),
+      });
+    }
+  };
+
+  const filteredInventory = searchQuery
+    ? matchSorter(inventory, searchQuery, { keys: columns.map(column => column.id) })
+    : inventory;
+
+  // Convert inventory data to CSV-compatible format
+  const csvData = filteredInventory.map(item =>
+    columns.reduce((acc, column) => {
+      acc[column.label] = column.format ? column.format(item[column.id]) : item[column.id];
+      return acc;
+    }, {})
+  );
 
   return (
     <Box
@@ -47,27 +80,56 @@ export default function Home() {
       flexDirection={'column'}
       alignItems={'center'}
       gap={2}
+      sx={{ bgcolor: 'whitesmoke' }}
     >
-      <Button variant="contained" onClick={handleOpen}>
-        Add New Item
-      </Button>
-      {viewportWidth < 600 ? (
-        <VerticalTable
-          data={inventory}
-          columns={columns}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          setPage={setPage}
+      <TextField
+        label="Search"
+        variant="outlined"
+        value={searchQuery}
+        onChange={handleSearch}
+        margin="dense"
+        sx={{ width: '75%' }}
+      />
+      <Box>
+        <InventoryModal inventory={inventory} open={open} handleClose={handleClose} addItem={addItem} />
+        <Button variant="contained" onClick={handleOpen} sx={{ marginRight: '1vw' }}>
+          Add New Item
+        </Button>
+        <input
+          type="file"
+          accept=".csv"
+          onChange={handleCSVUpload}
+          style={{ display: 'none' }}
+          id="csv-upload"
         />
-      ) : (
-        <HorizontalTable
-          data={inventory}
-          columns={columns}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          setPage={setPage}
-        />
-      )}
+        <label htmlFor="csv-upload">
+          <Button variant="contained" color="primary" component="span">
+            Import CSV
+          </Button>
+        </label>
+      </Box>
+      <InventoryTable
+        data={filteredInventory}
+        columns={columns}
+        removeItem={removeItem}
+        order={order}
+        orderBy={orderBy}
+        setOrder={setOrder}
+        setOrderBy={setOrderBy}
+        page={page}
+        setPage={setPage}
+        rowsPerPage={rowsPerPage}
+        setRowsPerPage={setRowsPerPage}
+      />
+      <CSVLink
+        data={csvData}
+        filename={`inventory_${new Date().toISOString()}.csv`}
+        className="csv-link"
+      >
+        <Button variant="contained" color="primary">
+          Export as CSV
+        </Button>
+      </CSVLink>
     </Box>
   );
 }
