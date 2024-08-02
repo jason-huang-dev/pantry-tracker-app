@@ -1,9 +1,8 @@
-'use client';
-
+'use client'
 import { useState } from 'react';
 import { Box, Button, TextField } from '@mui/material';
-import { InventoryModal, InventoryTable } from './components';
-import { useInventory } from './hooks/';
+import { InventoryModal, InventoryTable} from './components';
+import { useInventory } from './hooks';
 import { matchSorter } from 'match-sorter';
 import { CSVLink } from 'react-csv';
 import Papa from 'papaparse';
@@ -12,7 +11,7 @@ const columns = [
   { id: 'id', label: 'ID' },
   { id: 'item_name', label: 'Name' },
   { id: 'price', label: 'Price', format: (value) => `$${parseFloat(value).toFixed(2)}` },
-  { id: 'quantity', label: 'Quantity' },
+  { id: 'quantity', label: 'Quantity' , format: (value) => `$${parseInt(value)}`},
 ];
 
 export default function Home() {
@@ -42,10 +41,9 @@ export default function Home() {
             const item = columns.reduce((acc, column) => {
               let value = row[column.label];
               // Convert values to appropriate types (e.g., number for price and quantity)
-              if (column.id === 'Price') {
+              if (column.id === 'price') {
                 value = parseFloat(value);
-                console.log(value);
-              } else if (column.id === 'Quantity') {
+              } else if (column.id === 'quantity') {
                 value = parseInt(value, 10);
               }
               acc[column.id] = value || '';
@@ -126,8 +124,8 @@ export default function Home() {
         filename={`inventory_${new Date().toISOString()}.csv`}
         className="csv-link"
       >
-        <Button variant="contained" color="primary">
-          Export as CSV
+        <Button variant="contained" color="secondary">
+          Export CSV
         </Button>
       </CSVLink>
     </Box>

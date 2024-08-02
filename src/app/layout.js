@@ -3,7 +3,8 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-//Features import and export csv and pdfs, search and filter, item categories, and user authentication, and removal of not just one object
+//Things to add a item category, description, price, supplier info, min threshhold for pentential notification
+//Features import and export csv and pdfs, pagination/scrolling, search and filter, item categories, and user authentication, and removal of not just one object
 
 export const metadata = {
   title: "Create Next App",
